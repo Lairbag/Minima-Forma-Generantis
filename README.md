@@ -53,12 +53,18 @@ The actual dimensions need some refinement.
  - Couleur base : Permet de choisir une couleur pour la base. La couleur par défaut est *blanc*.
  - Nom du fichier : Le nom du fichier, initialisé par celui du fichier importé. *Impossible de l'éditer pour le moment*
 
+---
+
  - Support : let knows if we generate some paper support. *Doesn't work for the moment*. 
  - Horizontal join : determines whether the join between the face and back of the mini is horizontal or vertical. The default value is * horizontal join *.
  - Back opacity : this option changes the opacity of the back of the mini. The default value is *50%*.
  - Border color : Set the mini border color. The default value is *black*.
  - Support color : Set the support color. The default value is *white*.
  - File name : Finale file name, initiated with the name of the imported file. *Not editable for the moment*.
+
+## Télécharger - Download
+Lien de téléchargement de l'image et prévisualisation.
+Download link and previsualisation.
 
 # Feuille de route - Roadmap
 
@@ -76,6 +82,7 @@ The actual dimensions need some refinement.
 - trouver mieux que des strings pour les tailles
 - importer plusieurs fichiers ? https://jsfiddle.net/AlexZeitler/fPWFd/*
 
+---
 
 - debug support binding
 - debug file name binding
