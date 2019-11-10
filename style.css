@@ -1,0 +1,69 @@
+body{
+    margin-left: 25%;
+}
+
+#token-container
+{
+    margin-top: 1em;
+}
+
+.minuscule{
+    background-color:green;
+    height:2.425cm;
+    width:1.3cm;
+    display: inline-block;
+}
+
+.minuscule-support{
+    height:0.5cm;
+    width:4.146cm;
+}
+
+.standard{
+    background-color:blue;
+    height:8.8cm;
+    width:4.146cm;
+    display: inline-block;
+    margin:0;
+}
+
+.standard-support{
+    height:1cm;
+    width:4.146cm;
+}
+
+.grand{
+    background-color:blue;
+    height:12.16cm;
+    width:6.5cm;
+    display: inline-block;
+}
+
+.grand-support{
+    height:1cm;
+    width:6.5cm;
+}
+
+.colossale{
+    background-color:blue;
+    height:16.16cm;
+    width:8.3cm;
+    display: inline-block;
+}
+
+.colossale-support{
+    height:1.5cm;
+    width:8.3cm;
+}
+
+.gigantesque{
+    background-color:blue;
+    height:19.85cm;
+    width:10.5cm;
+    display: inline-block;
+}
+
+.gigantesque-support{
+    height:1.5cm;
+    width:10.5cm;
+}
