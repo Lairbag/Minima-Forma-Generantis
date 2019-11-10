@@ -28,8 +28,9 @@ Différentes tailles sont proposée :
 |Grand|12,16            |6,5            |1|
 |Colossale|16,16            |8,3            |1,5|
 |Gigantesque|19,85            |10,5            |1,5|
+
 La taille *standard* est la taille sélectionnée par défaut.
- Les dimensions actuel sont encore à éprouver.
+Les dimensions actuel sont encore à éprouver.
 
 Many sizes are available :
 
@@ -40,6 +41,7 @@ Many sizes are available :
 |Large|12,16            |6,5            |1|
 |Colossal|16,16            |8,3            |1,5|
 |Gigantic|19,85            |10,5            |1,5|
+
 The default size is *standard*.
 The actual dimensions need some refinement.
 ## Options
@@ -50,8 +52,6 @@ The actual dimensions need some refinement.
  - Couleur bordure : Permet de choisir une couleur pour la bordure de la miniature. La valeur par défaut est *noire*.
  - Couleur base : Permet de choisir une couleur pour la base. La couleur par défaut est *blanc*.
  - Nom du fichier : Le nom du fichier, initialisé par celui du fichier importé. *Impossible de l'éditer pour le moment*
-
-
 
  - Support : let knows if we generate some paper support. *Doesn't work for the moment*. 
  - Horizontal join : determines whether the join between the face and back of the mini is horizontal or vertical. The default value is * horizontal join *.
