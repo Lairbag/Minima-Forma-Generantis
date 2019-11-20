@@ -7,7 +7,7 @@ var Engine = function (options, image) {
     self.loadImage = function(canvas){
         var pattern = document.getElementById('pattern');
         var supportPattern = document.getElementById('support-pattern');
-        
+
         self.options.horizontalFormat(self.image.naturalWidth > self.image.naturalHeight);
 
         var width = !self.options.horizontalFormat()

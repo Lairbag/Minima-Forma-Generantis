@@ -1,35 +1,30 @@
-var OptionsViewModel = function(subscribeCallback) {
+var OptionsViewModel = function(callback) {
     var self = this;
     
-    self.supportColor = ko.observable("white");
-    self.supportColor.subscribe(function() {
-        subscribeCallback();
-    });
-    
-    self.borderColor = ko.observable("black");
-    self.borderColor.subscribe(function() {
-        subscribeCallback();
-    });
-    
-    self.opacity = ko.observable(50);
-    self.opacity.subscribe(function() {
-        subscribeCallback();
-    });
-    
-    self.horizontalFormat = ko.observable(false);
-    self.horizontalFormat.subscribe(function() {
-        subscribeCallback();
-    });
-    
-    self.horizontalJoin =  ko.observable(true);
-    self.horizontalJoin.subscribe(function() {
-        subscribeCallback();
-    });
-    
-    self.withSupport = ko.observable(true);
-    self.withSupport.subscribe(function() {
-        subscribeCallback();
+    self.supportColor = ko.observable("#ffffff");
+    self.supportColor.subscribe(function(){
+        callback();
     });
 
-    self.fileName = ko.observable("ma-miniature.jpg");
+    self.borderColor = ko.observable("#c8c8c8");
+    self.borderColor.subscribe(function(){
+        callback();
+    });
+
+    self.opacity = ko.observable(50);
+    self.opacity.subscribe(function(){
+        callback();
+    });
+    self.horizontalFormat = ko.observable(false);
+    
+    self.horizontalJoin =  ko.observable(true);
+    self.horizontalJoin.subscribe(function(){
+        callback();
+    });
+    self.withSupport = ko.observable(true);
+    self.withSupport.subscribe(function(){
+        callback();
+    });
+
+    self.fileName = ko.observable(null);
 };

@@ -1,10 +1,10 @@
-<html>
-	<head>
+<html lang="fr" dir="ltr" xml:lang="fr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
         <meta charset="UTF-8">
         <meta name="description" content="Générateur de miniature papier">
         <meta name="keywords" content="JDR, jeu de rôle, jeton, miniature papier">
         <meta name="author" content="@Lairbag">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
 		<link rel="stylesheet" type="text/css" href="style.css"/>
 		<script type="text/javascript" src="scripts/optionsViewModel.js"></script>
@@ -18,6 +18,7 @@
 			- corriger binding nom du fichier
 			- bonne taille pour les miniatures
 			- charger l'image depuis une url
+			- permettre de saisir le nom sur la base ou ailleur
 			- en faire une extension ?
 			- accessibilité
 			- design
@@ -47,31 +48,41 @@
 					<input type="checkbox" data-bind="checked: options.withSupport" id="support-option"/>
 					<label for="support-option">Base</label>
 				</div>
+
 				<div>
 					<input type="checkbox" data-bind="checked: options.horizontalJoin" id="horizontal-join"/>
 					<label for="horizontal-join">Jointure horizontale</label>
 				</div>
+				<!-- <div>
+					<input type="checkbox" data-bind="checked: options.horizontalFormat" id="horizontal-format"/>
+					<label for="horizontal-format">Format horizontale</label>
+				</div> -->
+
+				<div data-bind="visible: options.withSupport">
+					Couleur base : 
+					<input type="color" width="100%" data-bind="value: options.supportColor"/>
+					<label data-bind="text: options.supportColor"></label>
+				</div>
+
 				<div> 
 					Opacité du dos :
 					<input type="range" min="0" max="100" range="5" data-bind="value: options.opacity"> 
-					<!-- <label data-bind="text: options.opacity"></label>% -->
+					<label data-bind="text: options.opacity"></label>%
 				</div>
 				<div> 
 					Couleur bordure : 
 					<input type="color" width="100%" data-bind="value: options.borderColor"/>
 					<label data-bind="text: options.borderColor"></label>
 				</div>
-				<div> 
-					Couleur base : 
-					<input type="color" width="100%" data-bind="value: options.supportColor"/>
-					<label data-bind="text: options.supportColor"></label>
-				</div>
 				<div>
 					Nom du fichier : <input type="text" data-bind="value: options.fileName"/>
 				</div>
-
-                <h3>4. Télécharger</h3>
-                <div>
+				
+                <h3>4. Visualiser et télécharger</h3>
+				<div>
+					<button data-bind="click: refreshCanvas">Raffraichir</button>
+				</div>
+				<div>
 					<a href="#" data-bind="attr: {href: downloadHref, download: options.fileName }">
 						Télécharger l'image <span data-bind="text: options.fileName"></span> de taille <span data-bind="text: currentSize"></span>
 					</a>

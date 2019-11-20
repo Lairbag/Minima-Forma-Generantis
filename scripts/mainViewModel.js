@@ -3,9 +3,8 @@ var MainViewModel = function(canvas) {
 
     self.canvas = canvas;
     self.downloadHref = ko.observable(null);
-    self.options = new OptionsViewModel(function(){
-        self.refreshCanvas();
-    });
+    self.options = new OptionsViewModel(function(){self.refreshCanvas();});
+
     self.imageLoaded = ko.observable(false);
     self.currentSize = ko.observable(null);
 
@@ -23,27 +22,30 @@ var MainViewModel = function(canvas) {
     }
 
     self.refreshCanvas = function(){
-        if(self.imageLoaded()){
-            self.tmpReader.readAsDataURL(self.tmpDataUrl);
-            var ctx = self.canvas.getContext('2d');
-            ctx.restore();
-        }
+        if(!self.imageLoaded() || self.tmpReader == null || self.tmpDataUrl == null)
+            return;
+        self.tmpReader.readAsDataURL(self.tmpDataUrl);
+        
+        var ctx = self.canvas.getContext('2d');
+        ctx.restore();
+    
     };
 
     self.tmpDataUrl = null;
     self.tmpReader = null;
     self.fileSelect = function(element, event){
         self.imageLoaded(false);
-        
+        self.options.fileName(null);
+
         var files =  event.target.files;// FileList object
 
         // Loop through the FileList and render image files as thumbnails.
-        for (var i = 0, f; f = files[i]; i++) {
-
+        //for (var i = 0, f; f = files[i]; i++) {
+            var f = files[0];
             // Only process image files.
             if (!f.type.match('image.*')) {
-            alert(escape(f.name)+' n\'est pas une image !');
-            continue;
+                alert(escape(f.name)+' n\'est pas une image !');
+                return;
             }
 
             var reader = new FileReader();
@@ -55,8 +57,12 @@ var MainViewModel = function(canvas) {
                     
                     var image = new Image();
                     image.src = e.target.result;
-
-                    self.options.fileName(escape(theFile.name));
+                    
+                    if(self.options.fileName() === null)
+                        self.options.fileName(escape(theFile.name));
+                    
+                    if(self.currentSize() == null)
+                        self.setSize("standard");
                     
                     var engine = new Engine(self.options, image);
                     engine.loadImage(self.canvas);
@@ -66,18 +72,11 @@ var MainViewModel = function(canvas) {
                         self.downloadHref(dt);
 
                     self.imageLoaded(true);
-
-                    
-                    var sizeToUse = self.currentSize() == null
-                    ? "standard"
-                    : self.currentSize();
-                    
-                    self.setSize(sizeToUse);
                 };                            
             })(f);
             
             // Read in the image file as a data URL.
             reader.readAsDataURL(f);
-        }
+        //}
     }
 };
