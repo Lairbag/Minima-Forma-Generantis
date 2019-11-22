@@ -18,6 +18,8 @@ L'outil prend en entrée un image pour appliquer différentes transformations po
 
 The tool take an image and transform it into a paper mini.
 
+![](demo-MFG.gif)
+
 ## Taille de l'image - Image size
 Différentes tailles sont proposée :
 
