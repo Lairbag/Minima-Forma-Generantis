@@ -24,9 +24,10 @@ var Engine = function (options, image) {
             self.loadTokenWithVerticalJoin(supportPattern.clientHeight, height, width, canvas);
     }
 
+    
     self.loadTokenWithHorizontalJoin = function (supportHeight, height, width, canvas){
-        var ctx = canvas.getContext('2d');
-        
+        var ctx = canvas.getContext('2d');  
+
         canvas.width = width;
         canvas.height = (height + supportHeight) * 2;
         ctx.clearRect(0, 0, canvas.width, canvas.height);

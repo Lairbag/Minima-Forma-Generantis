@@ -17,6 +17,7 @@
 			- corriger binding base
 			- corriger binding nom du fichier
 			- bonne taille pour les miniatures
+			   https://www.thingiverse.com/thing:2646818
 			- charger l'image depuis une url
 			- permettre de saisir le nom sur la base ou ailleur
 			- en faire une extension ?
@@ -27,7 +28,8 @@
 			- minifier js
 			- trouver mieux que des strings pour les tailles
             - importer plusieurs fichiers ?
-                https://jsfiddle.net/AlexZeitler/fPWFd/
+				https://jsfiddle.net/AlexZeitler/fPWFd/
+			- pouvoir importer la face et le dos
 		-->
 		<h1>Minima Forma Generantis</h1>
 		<h2>- Générateur de miniature en papier -</h2>
@@ -53,10 +55,6 @@
 					<input type="checkbox" data-bind="checked: options.horizontalJoin" id="horizontal-join"/>
 					<label for="horizontal-join">Jointure horizontale</label>
 				</div>
-				<!-- <div>
-					<input type="checkbox" data-bind="checked: options.horizontalFormat" id="horizontal-format"/>
-					<label for="horizontal-format">Format horizontale</label>
-				</div> -->
 
 				<div data-bind="visible: options.withSupport">
 					Couleur base : 
