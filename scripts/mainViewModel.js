@@ -37,70 +37,54 @@ var MainViewModel = function(canvas) {
         self.imageLoaded(false);
         self.options.fileName(null);
 
-        var files =  event.target.files;// FileList object
+        var file = event.target.files[0];
 
-        // Loop through the FileList and render image files as thumbnails.
-        //for (var i = 0, f; f = files[i]; i++) {
-            var f = files[0];
-            // Only process image files.
-            if (!f.type.match('image.*')) {
-                alert(escape(f.name)+' n\'est pas une image !');
-                return;
-            }
+        // Only process image files.
+        if (!file.type.match('image.*')) {
+            alert(escape(file.name)+' n\'est pas une image !');
+            return;
+        }
 
-            var reader = new FileReader();
-            self.tmpReader = reader;
-            // Closure to capture the file information.
-            reader.onload = (function(theFile) {
-                return function(e) {                           
-                    
-                    var image = new Image();
-                    image.src = e.target.result;
-                    
-                    if(self.options.fileName() === null)
-                        self.options.fileName(escape(theFile.name));
-                    
-                    if(self.currentSize() == null)
-                        self.setSize("standard");
-                    
-                    var engine = new Engine(self.options, image);
-                    engine.loadImage(self.canvas);
-
-                    var dt = self.canvas.toDataURL('image/jpeg');//todo récupérer le type de l'image
-                    if(dt != self.downloadHref())
-                        self.downloadHref(dt);
-
-                    self.imageLoaded(true);
-                };                            
-            })(f);
-            
-            // Read in the image file as a data URL.
-            
-            //https://stackoverflow.com/questions/35940290/how-to-convert-base64-string-to-javascript-file-object-like-as-from-file-input-f
-            getImageUrl(f, null)
-                .then(imageUrl => fetch(imageUrl))
-                .then(res => res.arrayBuffer())
-                .then(buf => new File([buf], f.name,{type:f.type}))
-                .then(newFile => 
-                    { 
-                        self.tmpDataUrl = newFile;
-                        return reader.readAsDataURL(newFile);
-                    });
-            //reader.readAsDataURL(f);
+        //https://gist.githubusercontent.com/scf37/6b4bf47dce4d78be92216323b12f2d21/raw/0d1bc88bb2f523425ea6cf8ab77e79f6b040a284/imageOrientation.ts
+        //https://stackoverflow.com/questions/35940290/how-to-convert-base64-string-to-javascript-file-object-like-as-from-file-input-f        
+        self.readOrientation(file)
+            .then(orientation => self.applyRotation(file, orientation || 1))
+            .then(imageUrl => fetch(imageUrl))
+            .then(res => res.arrayBuffer())
+            .then(buf => new File([buf], file.name, {type:file.type}))
+            .then(newFile => { 
+                    self.tmpDataUrl = newFile;
+                    return self.createToken(newFile)
+                });
     }
 
+    self.createToken = (file) => new Promise(resolve =>{
+        const reader = new FileReader();
+        self.tmpReader = reader;
+        reader.onload = () => resolve((() => {
+            var image = new Image();
+            image.src = reader.result;
+            
+            if(self.options.fileName() === null)
+                self.options.fileName(escape(file.name));
+            
+            if(self.currentSize() == null)
+                self.setSize("standard");
+            
+            var engine = new Engine(self.options, image);
+            engine.loadImage(self.canvas);
 
+            var dt = self.canvas.toDataURL('image/jpeg');//todo récupérer le type de l'image => file.type
+            if(dt != self.downloadHref())
+                self.downloadHref(dt);
 
+            self.imageLoaded(true);
+        })());
+        reader.readAsArrayBuffer(file);
+    })
 
-
-//https://gist.githubusercontent.com/scf37/6b4bf47dce4d78be92216323b12f2d21/raw/0d1bc88bb2f523425ea6cf8ab77e79f6b040a284/imageOrientation.ts
-    function getImageUrl(file, maxWidth) {
-        return readOrientation(file).then(orientation => applyRotation(file, orientation || 1, maxWidth || 999999));
-    }
-    
     // Based on: https://stackoverflow.com/a/46814952/283851
-
-    const readOrientation = (file) => new Promise(resolve => {
+    self.readOrientation = (file) => new Promise(resolve => {
         const reader = new FileReader();
         reader.onload = () => resolve((() => {
             const view = new DataView(/** @type {ArrayBuffer} */ (reader.result));
@@ -139,8 +123,7 @@ var MainViewModel = function(canvas) {
         reader.readAsArrayBuffer(file.slice(0, 64 * 1024));
     });
 
-
-    const applyRotation = (file, orientation, maxWidth) => new Promise(resolve => {
+    self.applyRotation = (file, orientation) => new Promise(resolve => {
         const reader = new FileReader();
         reader.onload = () => {
             const url = reader.result;
@@ -152,9 +135,7 @@ var MainViewModel = function(canvas) {
                 const [outputWidth, outputHeight] = orientation >= 5 && orientation <= 8
                     ? [height, width]
                     : [width, height];
-                const scale = outputWidth > maxWidth ? maxWidth / outputWidth : 1;
-                width = Math.floor(width * scale);
-                height = Math.floor(height * scale);
+                
                 // to rotate rectangular image, we need enough space so square canvas is used
                 const wh = Math.max(width, height);
                 // set proper canvas dimensions before transform & export
@@ -195,8 +176,8 @@ var MainViewModel = function(canvas) {
                 context.drawImage(image, 0, 0, width, height);
                 // copy rotated image to output dimensions and export it
                 const canvas2 = document.createElement("canvas");
-                canvas2.width = Math.floor(outputWidth * scale);
-                canvas2.height = Math.floor(outputHeight * scale);
+                canvas2.width = outputWidth;
+                canvas2.height = outputHeight;
                 const ctx2 = canvas2.getContext("2d");
                 const sx = rightAligned ? canvas.width - canvas2.width : 0;
                 ctx2.drawImage(canvas, sx, 0, canvas2.width, canvas2.height, 0, 0, canvas2.width, canvas2.height);
