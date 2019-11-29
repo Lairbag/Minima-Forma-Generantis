@@ -74,7 +74,8 @@ var MainViewModel = function(canvas) {
             var engine = new Engine(self.options, image);
             engine.loadImage(self.canvas);
 
-            var dt = self.canvas.toDataURL('image/jpeg');//todo récupérer le type de l'image => file.type
+            var dt = self.canvas.toDataURL(file.type);
+            
             if(dt != self.downloadHref())
                 self.downloadHref(dt);
 
