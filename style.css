@@ -8,62 +8,62 @@ body{
 }
 
 .minuscule{
-    background-color:green;
-    height:2.425cm;
-    width:1.3cm;
+    height: 15.24mm;
+    width:7.62mm;
     display: inline-block;
 }
 
 .minuscule-support{
+    height:0.3cm;
+}
+
+.petit{
+    height: 25.40mm;
+    width:12.7mm;
+    display: inline-block;
+}
+
+.petit-support{
     height:0.5cm;
-    width:4.146cm;
 }
 
 .standard{
-    background-color:blue;
-    height:8.8cm;
-    width:4.146cm;
+    height: 30.48mm;
+    width: 15.24mm;
     display: inline-block;
     margin:0;
 }
 
 .standard-support{
-    height:1cm;
-    width:4.146cm;
+    height:0.65cm;
 }
 
 .grand{
-    background-color:blue;
-    height:12.16cm;
-    width:6.5cm;
+    height:35.56mm;
+    width:17.78mm;
     display: inline-block;
 }
 
 .grand-support{
-    height:1cm;
-    width:6.5cm;
+    height:0.65cm;
 }
 
 .colossale{
-    background-color:blue;
-    height:16.16cm;
-    width:8.3cm;
+    height:60.45mm;
+    width:42.67mm;
     display: inline-block;
 }
 
 .colossale-support{
-    height:1.5cm;
-    width:8.3cm;
+    height:1cm;
 }
 
 .gigantesque{
-    background-color:blue;
-    height:19.85cm;
-    width:10.5cm;
+    height:120.9mm;
+    width:60.45mm;
     display: inline-block;
 }
 
 .gigantesque-support{
     height:1.5cm;
-    width:10.5cm;
 }

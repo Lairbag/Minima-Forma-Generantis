@@ -16,6 +16,7 @@ var MainViewModel = function(canvas, pattern, supportPattern) {
 
     self.sizes = ko.observableArray([
         "minuscule",
+        "petit",
         "standard",
         "grand",
         "colossale",
@@ -34,6 +35,11 @@ var MainViewModel = function(canvas, pattern, supportPattern) {
         
         var ctx = self.canvas.getContext('2d');
         ctx.restore();
+
+        var dt = self.canvas.toDataURL(self.tmpDataUrl.type);
+            
+        if(dt != self.downloadHref())
+            self.downloadHref(dt); 
     };
 
     self.fileSelect = function(element, event){
@@ -72,7 +78,7 @@ var MainViewModel = function(canvas, pattern, supportPattern) {
             })
             .then(() => {                
                 var dt = self.canvas.toDataURL(file.type);
-                
+            
                 if(dt != self.downloadHref())
                     self.downloadHref(dt);
                     
