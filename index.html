@@ -96,8 +96,11 @@
 		</div>
 		
 		<script type="text/javascript">
-            var canvas = document.getElementById('token-container');
-            var viewModel = new MainViewModel(canvas);
+			var canvas = document.getElementById('token-container');
+			var pattern = document.getElementById('pattern');
+			var supportPattern = document.getElementById('support-pattern');
+			
+            var viewModel = new MainViewModel(canvas, pattern, supportPattern);
             ko.applyBindings(viewModel);
 		</script>
 

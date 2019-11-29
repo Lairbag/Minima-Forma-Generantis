@@ -1,40 +1,42 @@
-var Engine = function (options, image) {
+var Engine = function (options, image, canvas) {
     var self = this;
 
     self.options = options;
     self.image = image;
+    self.canvas = canvas;
 
-    self.loadImage = function(canvas){
-        var pattern = document.getElementById('pattern');
-        var supportPattern = document.getElementById('support-pattern');
+    self.createToken = (file, image, reader, pattern, supportPattern) => new Promise(resolve =>{
+        reader.onload = () => resolve((() => {
+            image.src = reader.result;
 
-        self.options.horizontalFormat(self.image.naturalWidth > self.image.naturalHeight);
+            self.options.horizontalFormat(self.image.naturalWidth > self.image.naturalHeight);
 
-        var width = !self.options.horizontalFormat()
-            ? pattern.clientWidth
-            : pattern.clientHeight;
-        
-        var height = !self.options.horizontalFormat()
-            ? pattern.clientHeight
-            : pattern.clientWidth;
+            var width = !self.options.horizontalFormat()
+                ? pattern.clientWidth
+                : pattern.clientHeight;
+            
+            var height = !self.options.horizontalFormat()
+                ? pattern.clientHeight
+                : pattern.clientWidth;
 
-        if(self.options.horizontalJoin())
-            self.loadTokenWithHorizontalJoin(supportPattern.clientHeight, height, width, canvas);	
-        else
-            self.loadTokenWithVerticalJoin(supportPattern.clientHeight, height, width, canvas);
-    }
-
+            if(self.options.horizontalJoin())
+                self.loadTokenWithHorizontalJoin(supportPattern.clientHeight, height, width);	
+            else
+                self.loadTokenWithVerticalJoin(supportPattern.clientHeight, height, width);
+        })());
+        reader.readAsArrayBuffer(file);
+    })
     
-    self.loadTokenWithHorizontalJoin = function (supportHeight, height, width, canvas){
-        var ctx = canvas.getContext('2d');  
+    self.loadTokenWithHorizontalJoin = function (supportHeight, height, width){
+        var ctx = self.canvas.getContext('2d');  
 
-        canvas.width = width;
-        canvas.height = (height + supportHeight) * 2;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        self.canvas.width = width;
+        self.canvas.height = (height + supportHeight) * 2;
+        ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
 
         //background
         ctx.fillStyle = "white";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillRect(0, 0, self.canvas.width, self.canvas.height);
     
         //images
         ctx.scale(1, -1);
@@ -46,7 +48,7 @@ var Engine = function (options, image) {
         //borders
         ctx.globalAlpha = 1;
         ctx.beginPath();
-        ctx.rect(0, 0, canvas.width, canvas.height);
+        ctx.rect(0, 0, self.canvas.width, self.canvas.height);
         ctx.rect(0, 0, width, supportHeight);
         ctx.rect(0, height + supportHeight, width, height);
         
@@ -61,15 +63,15 @@ var Engine = function (options, image) {
         ctx.stroke();
     }
     
-    self.loadTokenWithVerticalJoin = function(supportHeight, height, width, canvas){
-        var ctx = canvas.getContext('2d');
+    self.loadTokenWithVerticalJoin = function(supportHeight, height, width){
+        var ctx = self.canvas.getContext('2d');
 
-        canvas.width = width*2;
-        canvas.height = height + supportHeight;
+        self.canvas.width = width*2;
+        self.canvas.height = height + supportHeight;
     
         //background
         ctx.fillStyle = "white";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillRect(0, 0, self.canvas.width, self.canvas.height);
     
         //images
         ctx.scale(-1, 1);						
@@ -81,7 +83,7 @@ var Engine = function (options, image) {
         //borders
         ctx.globalAlpha = 1;
         ctx.beginPath();
-        ctx.rect(0, 0, canvas.width, canvas.height);
+        ctx.rect(0, 0, self.canvas.width, self.canvas.height);
         ctx.rect(0, 0, width, height);
         ctx.rect(0, height, width, supportHeight);
         ctx.rect(width, height, width, height);

@@ -1,7 +1,13 @@
-var MainViewModel = function(canvas) {
+var MainViewModel = function(canvas, pattern, supportPattern) {
     var self = this;
 
     self.canvas = canvas;
+    self.pattern = pattern;
+    self.supportPattern = supportPattern;
+
+    self.tmpDataUrl = null;
+    self.tmpReader = null;    
+
     self.downloadHref = ko.observable(null);
     self.options = new OptionsViewModel(function(){self.refreshCanvas();});
 
@@ -28,11 +34,8 @@ var MainViewModel = function(canvas) {
         
         var ctx = self.canvas.getContext('2d');
         ctx.restore();
-    
     };
 
-    self.tmpDataUrl = null;
-    self.tmpReader = null;
     self.fileSelect = function(element, event){
         self.imageLoaded(false);
         self.options.fileName(null);
@@ -44,7 +47,12 @@ var MainViewModel = function(canvas) {
             alert(escape(file.name)+' n\'est pas une image !');
             return;
         }
+        
+        if(self.currentSize() == null)
+            self.setSize("standard");
 
+        var image = new Image();
+        var engine = new Engine(self.options, image, self.canvas);
         //https://gist.githubusercontent.com/scf37/6b4bf47dce4d78be92216323b12f2d21/raw/0d1bc88bb2f523425ea6cf8ab77e79f6b040a284/imageOrientation.ts
         //https://stackoverflow.com/questions/35940290/how-to-convert-base64-string-to-javascript-file-object-like-as-from-file-input-f        
         self.readOrientation(file)
@@ -53,36 +61,24 @@ var MainViewModel = function(canvas) {
             .then(res => res.arrayBuffer())
             .then(buf => new File([buf], file.name, {type:file.type}))
             .then(newFile => { 
-                    self.tmpDataUrl = newFile;
-                    return self.createToken(newFile)
-                });
+                const reader = new FileReader();
+                self.tmpReader = reader;
+                self.tmpDataUrl = newFile;
+
+                if(self.options.fileName() === null)
+                    self.options.fileName(escape(newFile.name));
+
+                return engine.createToken(newFile, image, reader, pattern, supportPattern);
+            })
+            .then(() => {                
+                var dt = self.canvas.toDataURL(file.type);
+                
+                if(dt != self.downloadHref())
+                    self.downloadHref(dt);
+                    
+                self.imageLoaded(true);
+            });
     }
-
-    self.createToken = (file) => new Promise(resolve =>{
-        const reader = new FileReader();
-        self.tmpReader = reader;
-        reader.onload = () => resolve((() => {
-            var image = new Image();
-            image.src = reader.result;
-            
-            if(self.options.fileName() === null)
-                self.options.fileName(escape(file.name));
-            
-            if(self.currentSize() == null)
-                self.setSize("standard");
-            
-            var engine = new Engine(self.options, image);
-            engine.loadImage(self.canvas);
-
-            var dt = self.canvas.toDataURL(file.type);
-            
-            if(dt != self.downloadHref())
-                self.downloadHref(dt);
-
-            self.imageLoaded(true);
-        })());
-        reader.readAsArrayBuffer(file);
-    })
 
     // Based on: https://stackoverflow.com/a/46814952/283851
     self.readOrientation = (file) => new Promise(resolve => {
