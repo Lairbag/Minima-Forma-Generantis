@@ -15,12 +15,12 @@ var MainViewModel = function(canvas, pattern, supportPattern) {
     self.currentSize = ko.observable(null);
 
     self.sizes = ko.observableArray([
-        "minuscule",
+        //"minuscule",
         "petit",
         "standard",
         "grand",
         "colossale",
-        "gigantesque"
+        //"gigantesque"
     ]);
     
     self.setSize = function(size){

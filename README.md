@@ -25,11 +25,10 @@ Différentes tailles sont proposée :
 
 |Nom             |Hauteur (cm)                |Largeur (cm)    |Hauteur base (cm)                     |
 |----------------|-------------------------------|-----------------------------|-----------------------------|
-|Minuscule|2,425            |1,3            |1|
-|Standard|8,8            |4,146            |1|
-|Grand|12,16            |6,5            |1|
-|Colossale|16,16            |8,3            |1,5|
-|Gigantesque|19,85            |10,5            |1,5|
+|Petit|3            |1.8            |0.5|
+|Standard|4            |2            |1|
+|Grand|5.3            |3.5            |1.5|
+|Colossale|10            |6           |3|
 
 La taille *standard* est la taille sélectionnée par défaut.
 Les dimensions actuel sont encore à éprouver.
@@ -38,11 +37,10 @@ Many sizes are available :
 
 |Name             |Height (cm)                |Width (cm)    |Height support (cm)                     |
 |----------------|-------------------------------|-----------------------------|-----------------------------|
-|Minuscule|2,425            |1,3            |1|
-|Standard|8,8            |4,146            |1|
-|Large|12,16            |6,5            |1|
-|Colossal|16,16            |8,3            |1,5|
-|Gigantic|19,85            |10,5            |1,5|
+|Small|3            |1.8            |0.5|
+|Standard|4            |2            |1|
+|Large|5.3            |3.5            |1.5|
+|Colossal|10            |6           |3|
 
 The default size is *standard*.
 The actual dimensions need some refinement.

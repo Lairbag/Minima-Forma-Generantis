@@ -7,19 +7,9 @@ body{
     margin-top: 1em;
 }
 
-.minuscule{
-    height: 15.24mm;
-    width:7.62mm;
-    display: inline-block;
-}
-
-.minuscule-support{
-    height:0.3cm;
-}
-
 .petit{
-    height: 25.40mm;
-    width:12.7mm;
+    height: 3cm;
+    width:1.8cm;
     display: inline-block;
 }
 
@@ -28,42 +18,32 @@ body{
 }
 
 .standard{
-    height: 30.48mm;
-    width: 15.24mm;
+    height: 4cm;
+    width: 2cm;
     display: inline-block;
     margin:0;
 }
 
 .standard-support{
-    height:0.65cm;
+    height:1cm;
 }
 
 .grand{
-    height:35.56mm;
-    width:17.78mm;
+    height:5.3cm;
+    width:3.5cm;
     display: inline-block;
 }
 
 .grand-support{
-    height:0.65cm;
+    height:1.5cm;
 }
 
 .colossale{
-    height:60.45mm;
-    width:42.67mm;
+    height:10cm;
+    width:6cm;
     display: inline-block;
 }
 
 .colossale-support{
-    height:1cm;
-}
-
-.gigantesque{
-    height:120.9mm;
-    width:60.45mm;
-    display: inline-block;
-}
-
-.gigantesque-support{
-    height:1.5cm;
+    height:3cm;
 }

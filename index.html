@@ -1,106 +1,107 @@
-<html lang="fr" dir="ltr" xml:lang="fr" xmlns="http://www.w3.org/1999/xhtml">
+﻿<html lang="fr" dir="ltr" xml:lang="fr" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-        <meta charset="UTF-8">
-        <meta name="description" content="Générateur de miniature papier">
-        <meta name="keywords" content="JDR, jeu de rôle, jeton, miniature papier">
-        <meta name="author" content="@Lairbag">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
-		<link rel="stylesheet" type="text/css" href="style.css"/>
-		<script type="text/javascript" src="scripts/optionsViewModel.js"></script>
-		<script type="text/javascript" src="scripts/engine.js"></script>        
-		<script type="text/javascript" src="scripts/mainViewModel.js"></script>
-	</head>
-	<body>
-		<!--
-			TODO
-			- bonne taille pour les miniatures
-			   https://www.thingiverse.com/thing:2646818
-			- charger l'image depuis une url
-			- pouvoir importer la face et le dos
-			- permettre de saisir le nom sur la base ou ailleur
-			- en faire une extension ?
-			- accessibilité
-			- design
-			- multi langue
-			- détourage automatique
-			- minifier js
-			- trouver mieux que des strings pour les tailles
-            - importer plusieurs fichiers ?
-				https://jsfiddle.net/AlexZeitler/fPWFd/
+	<meta charset="UTF-8">
+	<meta name="description" content="Générateur de miniature papier">
+	<meta name="keywords" content="JDR, jeu de rôle, jeton, miniature papier">
+	<meta name="author" content="@Lairbag">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css" />
+	<script type="text/javascript" src="scripts/optionsViewModel.js"></script>
+	<script type="text/javascript" src="scripts/engine.js"></script>
+	<script type="text/javascript" src="scripts/mainViewModel.js"></script>
+</head>
+<body>
+	<!--
+	TODO
+	- bonne taille pour les miniatures
+	https://www.thingiverse.com/thing:2646818
+	- charger l'image depuis une url
+	- taille personnalisé
+	- pouvoir importer la face et le dos
+	- permettre de saisir le nom sur la base ou ailleur
+	- en faire une extension ?
+	- accessibilité
+	- design
+	- multi langue
+	- détourage automatique
+	- minifier js
+	- trouver mieux que des strings pour les tailles
+				- importer plusieurs fichiers ?
+		https://jsfiddle.net/AlexZeitler/fPWFd/
 		-->
-		<h1>Minima Forma Generantis</h1>
-		<h2>- Générateur de miniature en papier -</h2>
+	<h1>Minima Forma Generantis</h1>
+	<h2>- Générateur de miniature en papier -</h2>
+	<div>
+		<h3>1. Choisir une image de base</h3>
 		<div>
-			<h3>1. Choisir une image de base</h3>
-			<div>
-				<input type="file" id="imageLoader" name="imageLoader" data-bind="event:{change: fileSelect}"/>		
+			<input type="file" id="imageLoader" name="imageLoader" data-bind="event:{change: fileSelect}" />
+		</div>
+
+		<div data-bind="visible: imageLoaded">
+			<h3>2. Choisir une taille</h3>
+			<div data-bind="foreach: sizes">
+				<button data-bind="text: $data, click: $parent.setSize, style: { 'font-weight': $parent.currentSize() == $data ? 'bold' : 'normal' }"></button>
 			</div>
 
-			<div data-bind="visible: imageLoaded">
-				<h3>2. Choisir une taille</h3>
-				<div data-bind="foreach: sizes">
-					<button data-bind="text: $data, click: $parent.setSize, style: { 'font-weight': $parent.currentSize() == $data ? 'bold' : 'normal' }"></button>
-				</div>
+			<h3>3. Options</h3>
+			<div>
+				<input type="checkbox" data-bind="checked: options.withSupport" id="support-option" />
+				<label for="support-option">Base</label>
+			</div>
 
-				<h3>3. Options</h3>
-				<div>
-					<input type="checkbox" data-bind="checked: options.withSupport" id="support-option"/>
-					<label for="support-option">Base</label>
-				</div>
+			<div>
+				<input type="checkbox" data-bind="checked: options.horizontalJoin" id="horizontal-join" />
+				<label for="horizontal-join">Jointure horizontale</label>
+			</div>
 
-				<div>
-					<input type="checkbox" data-bind="checked: options.horizontalJoin" id="horizontal-join"/>
-					<label for="horizontal-join">Jointure horizontale</label>
-				</div>
+			<div data-bind="visible: options.withSupport">
+				Couleur base :
+				<input type="color" width="100%" data-bind="value: options.supportColor" />
+				<label data-bind="text: options.supportColor"></label>
+			</div>
 
-				<div data-bind="visible: options.withSupport">
-					Couleur base : 
-					<input type="color" width="100%" data-bind="value: options.supportColor"/>
-					<label data-bind="text: options.supportColor"></label>
-				</div>
+			<div>
+				Opacité du dos :
+				<input type="range" min="0" max="100" range="5" data-bind="value: options.opacity">
+				<label data-bind="text: options.opacity"></label>%
+			</div>
+			<div>
+				Couleur bordure :
+				<input type="color" width="100%" data-bind="value: options.borderColor" />
+				<label data-bind="text: options.borderColor"></label>
+			</div>
+			<div>
+				Nom du fichier : <input type="text" data-bind="value: options.fileName" />
+			</div>
 
-				<div> 
-					Opacité du dos :
-					<input type="range" min="0" max="100" range="5" data-bind="value: options.opacity"> 
-					<label data-bind="text: options.opacity"></label>%
-				</div>
-				<div> 
-					Couleur bordure : 
-					<input type="color" width="100%" data-bind="value: options.borderColor"/>
-					<label data-bind="text: options.borderColor"></label>
-				</div>
-				<div>
-					Nom du fichier : <input type="text" data-bind="value: options.fileName"/>
-				</div>
-				
-                <h3>4. Visualiser et télécharger</h3>
-				<div>
-					<button data-bind="click: refreshCanvas">Raffraichir</button>
-				</div>
-				<div>
-					<a href="#" data-bind="attr: {href: downloadHref, download: options.fileName }">
-						Télécharger l'image <span data-bind="text: options.fileName"></span> de taille <span data-bind="text: currentSize"></span>
-					</a>
-				</div>
-			</div>			
+			<h3>4. Visualiser et télécharger</h3>
+			<div>
+				<button data-bind="click: refreshCanvas">Raffraichir</button>
+			</div>
+			<div>
+				<a href="#" data-bind="attr: {href: downloadHref, download: options.fileName }">
+					Télécharger l'image <span data-bind="text: options.fileName"></span> de taille <span data-bind="text: currentSize"></span>
+				</a>
+			</div>
 		</div>
+	</div>
 
-		<div>
-			<canvas id="token-container"></canvas>
+	<div>
+		<canvas id="token-container"></canvas>
 
-			<div id="pattern" style="visibility: hidden" data-bind="class: currentSize()"></div>
-			<div id="support-pattern" style="visibility: hidden" data-bind="visible: options.withSupport, class: currentSize()+'-support'"></div>
-		</div>
-		
-		<script type="text/javascript">
-			var canvas = document.getElementById('token-container');
-			var pattern = document.getElementById('pattern');
-			var supportPattern = document.getElementById('support-pattern');
-			
-            var viewModel = new MainViewModel(canvas, pattern, supportPattern);
-            ko.applyBindings(viewModel);
-		</script>
+		<div id="pattern" style="visibility: hidden" data-bind="class: currentSize()"></div>
+		<div id="support-pattern" style="visibility: hidden" data-bind="visible: options.withSupport, class: currentSize()+'-support'"></div>
+	</div>
 
-	</body>
+	<script type="text/javascript">
+		var canvas = document.getElementById('token-container');
+		var pattern = document.getElementById('pattern');
+		var supportPattern = document.getElementById('support-pattern');
+
+		var viewModel = new MainViewModel(canvas, pattern, supportPattern);
+		ko.applyBindings(viewModel);
+	</script>
+
+</body>
 </html>
