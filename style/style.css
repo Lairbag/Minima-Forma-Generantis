@@ -80,7 +80,7 @@
 
 	.token-panel {
 		text-align: right;
-		display: inline-block;
+		display: inline;
 		width: auto;
 		vertical-align: bottom;
 	}
