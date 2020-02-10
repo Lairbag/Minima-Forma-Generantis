@@ -29,7 +29,7 @@ var MainViewModel = function (canvas, pattern, supportPattern) {
   };
 
   self.refreshCanvas = function () {
-    if (!self.imageLoaded() || self.tmpReader == null || self.tmpDataUrl == null)
+    if (!self.imageLoaded() || self.tmpReader === null || self.tmpDataUrl === null)
       return;
 
     self.tmpReader.readAsDataURL(self.tmpDataUrl);
@@ -50,7 +50,7 @@ var MainViewModel = function (canvas, pattern, supportPattern) {
       return;
     }
 
-    if (self.currentSize() == null)
+    if (self.currentSize() === null)
       self.setSize("standard");
 
     var engine = new Engine(self.options, self.canvas);
@@ -74,11 +74,16 @@ var MainViewModel = function (canvas, pattern, supportPattern) {
       .then(() => {
         var dt = self.canvas.toDataURL(file.type);
 
-        if (dt != self.downloadHref())
+        if (dt !== self.downloadHref())
           self.downloadHref(dt);
 
         self.imageLoaded(true);
-        self.refreshCanvas();//Quick (and dirty) win...
+        self.refreshCanvas();
       });
-  }
+  };
+
+  self.downloadGeneratedToken = function () {
+    self.refreshCanvas();
+    document.getElementById('linkWithDataUrl').click();
+  };
 };

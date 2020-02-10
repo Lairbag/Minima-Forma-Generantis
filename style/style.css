@@ -5,6 +5,27 @@
 	font-style: normal;
 }
 
+button {
+	border: 2px solid black;
+	border-radius: 5px;
+	background-color: white;
+	margin: 5px;
+	font-family: 'Tangerine' !important;
+	font-size: 1.5em;
+	cursor: pointer;
+	padding: 5px;
+}
+
+button:hover{
+	background-color: lightgray;
+}
+
+button:active {
+	background-color: black;
+	color: white;
+	transform: translateY(3px) translateX(-3px);
+}
+
 .header {
 	text-align: center;
 }

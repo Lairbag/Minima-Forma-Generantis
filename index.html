@@ -87,9 +87,10 @@
 					<button data-bind="click: refreshCanvas">Raffraichir</button>
 				</div>
 				<div>
-					<a href="#" data-bind="attr: {href: downloadHref, download: options.fileName }">
+					<button data-bind="click:downloadGeneratedToken">
 						Télécharger l'image <span data-bind="text: options.fileName"></span> de taille <span data-bind="text: currentSize"></span>
-					</a>
+					</button>
+					<a href="#" id="linkWithDataUrl" style="display:none" data-bind="attr: {href: downloadHref, download: options.fileName }"></a>
 				</div>
 			</div>
 		</div>

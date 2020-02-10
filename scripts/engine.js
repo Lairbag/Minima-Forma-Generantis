@@ -8,9 +8,7 @@ var Engine = function (options, canvas) {
   self.createToken = (file, reader, pattern, supportPattern) => new Promise(resolve => {
     reader.onload = () => resolve((() => {
       self.image.src = reader.result;
-
-      console.log(reader.result);
-
+      
       self.options.horizontalFormat(self.image.naturalWidth > self.image.naturalHeight);
 
       var width = !self.options.horizontalFormat()
@@ -28,7 +26,6 @@ var Engine = function (options, canvas) {
     })());
 
     reader.readAsDataURL(file);
-    //reader.readAsArrayBuffer(file);
   });
 
   self.loadTokenWithHorizontalJoin = function (supportHeight, height, width) {
